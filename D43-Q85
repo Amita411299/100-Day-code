@@ -1,0 +1,28 @@
+Q85-Reverse a string.
+Input 1:
+abcd
+Output 1:
+dcba
+CODE-
+#include <stdio.h>
+
+int main() {
+    char str[200];
+    int length = 0;
+
+    // Read input
+    scanf("%s", str);
+
+    // Find length manually
+    while (str[length] != '\0') {
+        length++;
+    }
+
+    // Print in reverse
+    for (int i = length - 1; i >= 0; i--) {
+        printf("%c", str[i]);
+    }
+
+    return 0;
+}
+
