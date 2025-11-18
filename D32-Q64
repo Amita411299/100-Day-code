@@ -1,0 +1,38 @@
+Q64-Find the digit that occurs the most times in an integer number.
+Input 1:
+112233
+Output 1:
+1
+Input 2:
+887799
+Output 2:
+7
+CODE-
+#include <stdio.h>
+
+int main() {
+    long long n;
+    int freq[10] = {0}; 
+    scanf("%lld", &n);
+
+    if (n < 0) n = -n;  // handle negative numbers
+
+    // Count digit frequencies
+    while (n > 0) {
+        int digit = n % 10;
+        freq[digit]++;
+        n /= 10;
+    }
+
+    // Find the digit with maximum frequency
+    int maxFreq = 0, maxDigit = 0;
+    for (int i = 0; i < 10; i++) {
+        if (freq[i] > maxFreq) {
+            maxFreq = freq[i];
+            maxDigit = i;
+        }
+    }
+
+    printf("%d", maxDigit);
+    return 0;
+}
