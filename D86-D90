@@ -1,0 +1,228 @@
+Q136 (Enum)
+Use enum to represent menu choices (ADD, SUBTRACT, MULTIPLY) and perform operations using switch.
+Input 1:
+ADD 10 20
+Output 1:
+30
+Explanation 1:
+The enum ADD triggers addition of 10 and 20.
+CODE-
+#include <stdio.h>
+#include <string.h>
+
+enum Operation {
+    ADD,
+    SUBTRACT,
+    MULTIPLY
+};
+
+int main() {
+    char input[10];
+    int a, b;
+    enum Operation op;
+
+    // Read operation and two numbers
+    printf("Enter operation and two numbers (e.g., ADD 10 20): ");
+    scanf("%s %d %d", input, &a, &b);
+
+    // Map input string to enum
+    if (strcmp(input, "ADD") == 0) {
+        op = ADD;
+    } else if (strcmp(input, "SUBTRACT") == 0) {
+        op = SUBTRACT;
+    } else if (strcmp(input, "MULTIPLY") == 0) {
+        op = MULTIPLY;
+    } else {
+        printf("Invalid operation\n");
+        return 1;
+    }
+
+    // Perform operation based on enum
+    switch (op) {
+        case ADD:
+            printf("%d\n", a + b);
+            break;
+        case SUBTRACT:
+            printf("%d\n", a - b);
+            break;
+        case MULTIPLY:
+            printf("%d\n", a * b);
+            break;
+    }
+
+    return 0;
+}
+
+
+Q137 (Enum)
+Create an enum for user roles (ADMIN, USER, GUEST) and display messages based on role.
+Input 1:
+GUEST
+Output 1:
+Welcome Guest!
+Explanation 1:
+Enum value determines which message is displayed.
+CODE-
+#include <stdio.h>
+#include <string.h>
+
+enum UserRole {
+    ADMIN,
+    USER,
+    GUEST
+};
+
+int main() {
+    char input[10];
+    enum UserRole role;
+
+    printf("Enter user role (ADMIN, USER, GUEST): ");
+    scanf("%s", input);
+
+    // Convert input to enum
+    if (strcmp(input, "ADMIN") == 0) {
+        role = ADMIN;
+    } else if (strcmp(input, "USER") == 0) {
+        role = USER;
+    } else if (strcmp(input, "GUEST") == 0) {
+        role = GUEST;
+    } else {
+        printf("Invalid role\n");
+        return 1;
+    }
+
+    // Display message based on role
+    switch (role) {
+        case ADMIN:
+            printf("Welcome Admin!\n");
+            break;
+        case USER:
+            printf("Welcome User!\n");
+            break;
+        case GUEST:
+            printf("Welcome Guest!\n");
+            break;
+    }
+
+    return 0;
+}
+
+
+
+Q138 (Enum)
+Print all enum names and integer values using a loop.
+Input 1:
+No input
+Output 1:
+RED=0
+YELLOW=1
+GREEN=2
+Explanation 1:
+Iterating through enum values prints each constant with its assigned integer.
+CODE-
+#include <stdio.h>
+
+enum TrafficLight {
+    RED,
+    YELLOW,
+    GREEN,
+    TRAFFIC_LIGHT_COUNT  // Helper to know the number of enums
+};
+
+int main() {
+    const char *names[] = {"RED", "YELLOW", "GREEN"};
+
+    for (int i = 0; i < TRAFFIC_LIGHT_COUNT; i++) {
+        printf("%s=%d\n", names[i], i);
+    }
+
+    return 0;
+}
+
+
+
+
+
+Q139 (Enum)
+Show that enums store integers by printing assigned values.
+Input 1:
+No input
+Output 1:
+SUCCESS=0, FAILURE=1, TIMEOUT=2
+Explanation 1:
+Enum constants are internally stored as integer values starting from 0.
+CODE-
+#include <stdio.h>
+
+enum Status {
+    SUCCESS,
+    FAILURE,
+    TIMEOUT
+};
+
+int main() {
+    printf("SUCCESS=%d, FAILURE=%d, TIMEOUT=%d\n", SUCCESS, FAILURE, TIMEOUT);
+    return 0;
+}
+
+
+
+
+Q140 (Enum)
+Define a struct with enum Gender and print person's gender.
+Input 1:
+Gender=MALE
+Output 1:
+Male
+Explanation 1:
+The enum inside the struct allows representing gender as a named constant.
+CODE-
+#include <stdio.h>
+#include <string.h>
+
+enum Gender {
+    MALE,
+    FEMALE,
+    OTHER
+};
+
+struct Person {
+    char name[50];
+    enum Gender gender;
+};
+
+int main() {
+    char input[10];
+    struct Person p;
+
+    printf("Enter gender (MALE, FEMALE, OTHER): ");
+    scanf("%s", input);
+
+    if (strcmp(input, "MALE") == 0) {
+        p.gender = MALE;
+    } else if (strcmp(input, "FEMALE") == 0) {
+        p.gender = FEMALE;
+    } else if (strcmp(input, "OTHER") == 0) {
+        p.gender = OTHER;
+    } else {
+        printf("Invalid gender\n");
+        return 1;
+    }
+
+    printf("Gender: ");
+    switch (p.gender) {
+        case MALE:
+            printf("Male\n");
+            break;
+        case FEMALE:
+            printf("Female\n");
+            break;
+        case OTHER:
+            printf("Other\n");
+            break;
+    }
+
+    return 0;
+}
+
+
