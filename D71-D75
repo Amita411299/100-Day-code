@@ -1,0 +1,242 @@
+Q121 (File Handling)
+Write a C program that creates a text file named info.txt in write mode. The program should take the user’s name and age as input, and write them to the file using fprintf(). After writing, display a message confirming that the data was successfully saved.
+Input 1:
+Name: Rahul, Age: 23
+Output 1:
+File created successfully! Data written to info.txt
+Explanation 1:
+Expected File Content (info.txt): Name: Rahul Age: 23
+CODE-
+#include <stdio.h>
+
+int main() {
+    char name[100];
+    int age;
+
+    // Take user input
+    printf("Enter your name: ");
+    fgets(name, sizeof(name), stdin);
+
+    // Remove trailing newline from fgets if present
+    int len = 0;
+    while (name[len] != '\0') len++;
+    if (len > 0 && name[len - 1] == '\n') {
+        name[len - 1] = '\0';
+    }
+
+    printf("Enter your age: ");
+    scanf("%d", &age);
+
+    // Open file in write mode
+    FILE *fp = fopen("info.txt", "w");
+    if (fp == NULL) {
+        printf("Error opening file!\n");
+        return 1;
+    }
+
+    // Write to file
+    fprintf(fp, "Name: %s Age: %d\n", name, age);
+
+    fclose(fp);
+
+    printf("File created successfully! Data written to info.txt\n");
+
+    return 0;
+}
+
+
+Q122 (File Handling)
+Write a C program that opens an existing file (e.g., info.txt) and reads its contents using fgets(). The program should print all the lines to the console until EOF (end of file) is reached.
+Input 1:
+File: info.txt (Content: Name: Rahul\nAge: 23)
+Output 1:
+Name: Rahul
+Age: 23
+Explanation 1:
+The program reads each line from info.txt using fgets() and prints it until EOF.
+CODE-
+#include <stdio.h>
+
+int main() {
+    FILE *fp = fopen("info.txt", "r");  // Open file in read mode
+
+    if (fp == NULL) {
+        printf("Unable to open file.\n");
+        return 1;
+    }
+
+    char line[256];  // Buffer to hold each line
+
+    // Read and print lines until EOF
+    while (fgets(line, sizeof(line), fp) != NULL) {
+        printf("%s", line);
+    }
+
+    fclose(fp);  // Close file
+    return 0;
+}
+
+
+
+Q123 (File Handling)
+Read a text file and count the total number of characters, words, and lines. A word is defined as a sequence of non-space characters separated by spaces or newlines.
+Input 1:
+File: sample.txt (Content: Hello world\nThis is C programming)
+Output 1:
+Characters: 31
+Words: 5
+Lines: 2
+Explanation 1:
+The file has 31 characters including spaces and newlines, 5 words, and 2 lines.
+CODE-
+#include <stdio.h>
+#include <ctype.h>
+
+int main() {
+    FILE *fp = fopen("sample.txt", "r");
+    if (fp == NULL) {
+        printf("Unable to open file.\n");
+        return 1;
+    }
+
+    int characters = 0, words = 0, lines = 0;
+    int inWord = 0; // Flag to track if inside a word
+    char ch;
+
+    while ((ch = fgetc(fp)) != EOF) {
+        characters++;
+
+        if (ch == '\n') {
+            lines++;
+        }
+
+        if (isspace(ch)) {
+            if (inWord) {
+                words++;
+                inWord = 0;
+            }
+        } else {
+            inWord = 1;
+        }
+    }
+
+    // If file does not end with a space, count the last word
+    if (inWord) {
+        words++;
+    }
+
+    // If file has any content but no newline, count line as 1
+    if (characters > 0 && lines == 0) {
+        lines = 1;
+    }
+
+    fclose(fp);
+
+    printf("Characters: %d\n", characters);
+    printf("Words: %d\n", words);
+    printf("Lines: %d\n", lines);
+
+    return 0;
+}
+
+
+Q124 (File Handling)
+Take two filenames from the user – a source file and a destination file. Copy all the content from the source file to the destination file using fgetc() and fputc().
+Input 1:
+Source File: source.txt (Content: Learning C File Handling)
+Output 1:
+File copied successfully to destination.txt
+Explanation 1:
+Expected File (destination.txt): Learning C File Handling
+CODE-
+#include <stdio.h>
+
+int main() {
+    char sourceFile[100], destFile[100];
+
+    // Take source and destination filenames
+    printf("Enter source filename: ");
+    scanf("%s", sourceFile);
+
+    printf("Enter destination filename: ");
+    scanf("%s", destFile);
+
+    FILE *src = fopen(sourceFile, "r");
+    if (src == NULL) {
+        printf("Unable to open source file.\n");
+        return 1;
+    }
+
+    FILE *dest = fopen(destFile, "w");
+    if (dest == NULL) {
+        printf("Unable to create destination file.\n");
+        fclose(src);
+        return 1;
+    }
+
+    int ch;
+    // Copy character by character
+    while ((ch = fgetc(src)) != EOF) {
+        fputc(ch, dest);
+    }
+
+    fclose(src);
+    fclose(dest);
+
+    printf("File copied successfully to %s\n", destFile);
+
+    return 0;
+}
+
+
+
+Q125 (File Handling)
+Open an existing file in append mode and allow the user to enter a new line of text. Append the text at the end without overwriting existing content.
+Input 1:
+Existing File: data.txt (Content before execution: Hello world)
+User Input: This is appended text.
+Output 1:
+File updated successfully with appended text.
+Explanation 1:
+Output File (data.txt after execution): Hello world\nThis is appended text.
+CODE-
+#include <stdio.h>
+
+int main() {
+    char filename[100];
+    char newLine[1000];
+
+    // Get filename from user
+    printf("Enter filename: ");
+    scanf("%s", filename);
+
+    // Open file in append mode
+    FILE *fp = fopen(filename, "a");
+    if (fp == NULL) {
+        printf("Unable to open file.\n");
+        return 1;
+    }
+
+    // Clear input buffer after scanf
+    getchar();
+
+    // Get new line of text from user
+    printf("Enter text to append: ");
+    fgets(newLine, sizeof(newLine), stdin);
+
+    // Append newline if not already present
+    int len = 0;
+    while (newLine[len] != '\0') len++;
+    if (len > 0 && newLine[len - 1] != '\n') {
+        fprintf(fp, "%s\n", newLine);
+    } else {
+        fprintf(fp, "%s", newLine);
+    }
+
+    fclose(fp);
+
+    printf("File updated successfully with appended text.\n");
+
+    return 0;
+}
+
