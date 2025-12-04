@@ -1,0 +1,290 @@
+
+Q111 (Logic Enhancers)
+Write a program to take an integer array arr and an integer k as inputs. The task is to find the first negative integer in each subarray of size k moving from left to right. If no negative exists in a window, print "0" for that window. Print the results separated by spaces as output.
+Input 1:
+arr[] = [-8, 2, 3, -6, 10], k = 2
+Output 1:
+-8 0 -6 -6
+Explanation 1:
+Window [-8, 2] First negative integer is -8. Window No negative integers, output is 0. Window [3, -6] First negative integer is -6. Window [-6, 10] First negative integer is -6.
+Input 2:
+arr[] = [12, -1, -7, 8, -15, 30, 16, 28], k = 3
+Output 2:
+-1 -1 -7 -15 -15 0
+Explanation 2:
+Window [12, -1, -7] First negative integer is -1. Window [-1, -7, 8] First negative integer is -1. Window [-7, 8, -15] First negative integer is -7. Window [8, -15, 30] First negative integer is -15. Window [-15, 30, 16] First negative integer is -15. Window No negative integers, output is 0.
+Input 3:
+arr[] = [12, 1, 3, 5], k = 3
+Output 3:
+0 0
+Explanation 3:
+Window No negative integers, output is 0. Window No negative integers, output is 0.
+CODE-
+#include <stdio.h>
+
+int main() {
+    int n, k;
+    scanf("%d", &n);
+
+    int arr[n];
+    for (int i = 0; i < n; i++) {
+        scanf("%d", &arr[i]);
+    }
+
+    scanf("%d", &k);
+
+    // Queue to store indices of negative numbers
+    int q[n];
+    int front = 0, rear = -1;
+
+    // Process first window
+    for (int i = 0; i < k; i++) {
+        if (arr[i] < 0)
+            q[++rear] = i;
+    }
+
+    // Print answer for first window
+    if (front <= rear) 
+        printf("%d ", arr[q[front]]);
+    else 
+        printf("0 ");
+
+    // Process rest of the windows
+    for (int i = k; i < n; i++) {
+
+        // Remove elements out of this window
+        while (front <= rear && q[front] <= i - k)
+            front++;
+
+        // Add new element if it is negative
+        if (arr[i] < 0)
+            q[++rear] = i;
+
+        // Print first negative
+        if (front <= rear)
+            printf("%d ", arr[q[front]]);
+        else
+            printf("0 ");
+    }
+
+    return 0;
+}
+
+
+
+
+Q112 (Logic Enhancers)
+Write a program to take an integer array arr as input. The task is to find the maximum sum of any contiguous subarray using Kadane's algorithm. Print the maximum sum as output. If all elements are negative, print the largest (least negative) element.
+Input 1:
+arr[] = [2, 3, -8, 7, -1, 2, 3]
+Output 1:
+11
+Explanation 1:
+The subarray [7, -1, 2, 3] has the largest sum 11.
+Input 2:
+arr[] = [-2, -4]
+Output 2:
+-2
+Explanation 2:
+The subarray [-2] has the largest sum -2.
+Input 3:
+arr[] = [5, 4, 1, 7, 8]
+Output 3:
+25
+Explanation 3:
+The subarray has the largest sum 25.
+CODE-
+#include <stdio.h>
+
+int main() {
+    int n;
+    scanf("%d", &n);
+
+    int arr[n];
+    for (int i = 0; i < n; i++) {
+        scanf("%d", &arr[i]);
+    }
+
+    int max_so_far = arr[0];
+    int current_sum = arr[0];
+
+    for (int i = 1; i < n; i++) {
+
+        // Either extend current subarray or start new from arr[i]
+        current_sum = (current_sum + arr[i] > arr[i]) ? current_sum + arr[i] : arr[i];
+
+        // Update global max
+        if (current_sum > max_so_far)
+            max_so_far = current_sum;
+    }
+
+    printf("%d", max_so_far);
+
+    return 0;
+}
+
+
+
+Q113 (Logic Enhancers)
+Write a program to take an integer array arr and an integer k as inputs. The task is to find the kth smallest element in the array. Print the kth smallest element as output.
+Input 1:
+arr[] = [10, 5, 4, 3, 48, 6, 2, 33, 53, 10], k = 4
+Output 1:
+5
+Explanation 1:
+4th smallest element in the given array is 5.
+Input 2:
+arr[] = [7, 10, 4, 3, 20, 15], k = 3
+Output 2:
+7
+Explanation 2:
+3rd smallest element in the given array is 7.
+CODE-
+#include <stdio.h>
+
+// Simple swapping function
+void swap(int *a, int *b) {
+    int temp = *a;
+    *a = *b;
+    *b = temp;
+}
+
+int main() {
+    int n, k;
+    scanf("%d", &n);
+
+    int arr[n];
+    for (int i = 0; i < n; i++) {
+        scanf("%d", &arr[i]);
+    }
+
+    scanf("%d", &k);
+
+    // Simple selection sort
+    for (int i = 0; i < n - 1; i++) {
+        for (int j = i + 1; j < n; j++) {
+            if (arr[j] < arr[i]) {
+                swap(&arr[i], &arr[j]);
+            }
+        }
+    }
+
+    printf("%d", arr[k - 1]);
+
+    return 0;
+}
+
+
+
+
+Q114 (Logic Enhancers)
+Write a program to take a string s as input. The task is to find the length of the longest substring without repeating characters. Print the length as output.
+Input 1:
+s = "abcabcbb"
+Output 1:
+3
+Explanation 1:
+The answer is "abc", with the length of 3. Note that "bca" and "cab" are also correct answers.
+Input 2:
+s = "bbbbb"
+Output 2:
+1
+Explanation 2:
+The answer is "b", with the length of 1.
+Input 3:
+s = "pwwkew"
+Output 3:
+3
+Explanation 3:
+The answer is "wke", with the length of 3. Notice that the answer must be a substring, "pwke" is a subsequence and not a substring.
+CODE-
+#include <stdio.h>
+#include <string.h>
+
+int main() {
+    char s[1000];
+    scanf("%s", s);
+
+    int freq[256] = {0};  // ASCII frequency
+    int left = 0, right = 0;
+    int maxLen = 0;
+    int n = strlen(s);
+
+    while (right < n) {
+        // Add current char to window
+        freq[(int)s[right]]++;
+
+        // If repeated, shrink window from left
+        while (freq[(int)s[right]] > 1) {
+            freq[(int)s[left]]--;
+            left++;
+        }
+
+        // Update max window size
+        int windowSize = right - left + 1;
+        if (windowSize > maxLen)
+            maxLen = windowSize;
+
+        right++;
+    }
+
+    printf("%d", maxLen);
+
+    return 0;
+}
+
+
+
+Q115 (Logic Enhancers)
+Write a program to take two strings s and t as inputs (assume all characters are lowercase). The task is to determine if s and t are valid anagrams, meaning they contain the same characters with the same frequencies. Print "Anagram" if they are, otherwise "Not Anagram".
+Input 1:
+s = "anagram", t = "nagaram"
+Output 1:
+Anagram
+Explanation 1:
+The strings contain the same characters with the same frequencies.
+Input 2:
+s = "rat", t = "car"
+Output 2:
+Not Anagram
+Explanation 2:
+The strings do not contain the same characters.
+CODE-
+#include <stdio.h>
+#include <string.h>
+
+int main() {
+    char s[1000], t[1000];
+    scanf("%s", s);
+    scanf("%s", t);
+
+    // If lengths differ, they can't be anagrams
+    if (strlen(s) != strlen(t)) {
+        printf("Not Anagram");
+        return 0;
+    }
+
+    int freq[26] = {0};
+
+    // Count frequency of chars in s
+    for (int i = 0; s[i] != '\0'; i++) {
+        freq[s[i] - 'a']++;
+    }
+
+    // Decrease frequency for chars in t
+    for (int i = 0; t[i] != '\0'; i++) {
+        freq[t[i] - 'a']--;
+    }
+
+    // If any frequency != 0 → not an anagram
+    for (int i = 0; i < 26; i++) {
+        if (freq[i] != 0) {
+            printf("Not Anagram");
+            return 0;
+        }
+    }
+
+    printf("Anagram");
+
+    return 0;
+}
