@@ -1,0 +1,349 @@
+Q105 (Logic Enhancers)
+Write a program to take an integer array nums of size n, and print the majority element. The majority element is the element that appears strictly more than ⌊n / 2⌋ times. Print -1 if no such element exists. Note: Majority Element is not necessarily the element that is present most number of times.
+Input 1:
+nums = [3,2,3]
+Output 1:
+3
+Explanation 1:
+Size = 3, Count of 3 = 2 → 2 > 3/2. Thus, 3 is the majority element.
+Input 2:
+nums = [2,2,1,1,1,2,2]
+Output 2:
+2
+Explanation 2:
+Size = 7, Count of 2 = 4 → 4 > 7/2. Thus, 2 is the majority element.
+Input 3:
+nums = [2,2,1,1,1,2,2,3]
+Output 3:
+-1
+Explanation 3:
+Size = 8, Count of 2 = 4 → 4 is not strictly greater than 8/2. Hence, no majority element exists.
+CODE-
+#include <stdio.h>
+
+int main() {
+    int nums[] = {2, 2, 1, 1, 1, 2, 2, 3};
+    int n = sizeof(nums) / sizeof(nums[0]);
+
+    int candidate = 0, count = 0;
+
+    // Step 1: Find possible majority candidate
+    for (int i = 0; i < n; i++) {
+        if (count == 0) {
+            candidate = nums[i];
+            count = 1;
+        } else if (nums[i] == candidate) {
+            count++;
+        } else {
+            count--;
+        }
+    }
+
+    // Step 2: Verify if candidate is actually majority
+    count = 0;
+    for (int i = 0; i < n; i++) {
+        if (nums[i] == candidate)
+            count++;
+    }
+
+    if (count > n / 2)
+        printf("%d\n", candidate);
+    else
+        printf("-1\n");
+
+    return 0;
+}
+
+
+
+Q106 (Logic Enhancers)
+Write a program to take an array arr[] of integers as input, the task is to find the next greater element for each element of the array in order of their appearance in the array. Next greater element of an element in the array is the nearest element on the right which is greater than the current element. If there does not exist next greater of current element, then next greater element for current element is -1.
+
+N.B:
+- Print the output for each element in a comma separated fashion.
+- Do not use Stack, use brute force approach (nested loop) to solve.
+Input 1:
+arr = [1, 3, 2, 4]
+Output 1:
+3, 4, 4, -1
+Explanation 1:
+The next larger element to 1 is 3, for 3 it is 4, for 2 it is 4 and for 4 there is no next greater element so it is -1.
+Input 2:
+arr = [6, 8, 0, 1, 3]
+Output 2:
+8, -1, 1, 3, -1
+Explanation 2:
+Next greater element for 6 is 8, for 8 it is -1, for 0 it is 1, for 1 it is 3 and for 3 there is no greater element on right hence -1.
+Input 3:
+arr = [1, 2, 3, 5]
+Output 3:
+2, 3, 5, -1
+Explanation 3:
+In a sorted array, each element’s next greater is its immediate next element except for the last element which has none, so -1.
+Input 4:
+arr = [5, 4, 3, 1]
+Output 4:
+-1, -1, -1, -1
+Explanation 4:
+No element has a greater element on its right, so all next greater elements are -1.
+CODE-
+#include <stdio.h>
+
+int main() {
+    int arr[] = {1, 3, 2, 4};
+    int n = sizeof(arr) / sizeof(arr[0]);
+
+    for (int i = 0; i < n; i++) {
+        int next = -1;
+
+        // Search for next greater on the right
+        for (int j = i + 1; j < n; j++) {
+            if (arr[j] > arr[i]) {
+                next = arr[j];
+                break;
+            }
+        }
+
+        // Print with comma formatting
+        if (i == n - 1)
+            printf("%d", next);
+        else
+            printf("%d, ", next);
+    }
+
+    return 0;
+}
+
+
+Q107 (Logic Enhancers)
+Write a program to take an array arr[] of integers as input, the task is to find the previous greater element for each element of the array in order of their appearance in the array. Previous greater element of an element in the array is the nearest element on the left which is greater than the current element. If there does not exist next greater of current element, then previous greater element for current element is -1.
+
+N.B:
+- Print the output for each element in a comma separated fashion.
+- Do not use Stack, use brute force approach (nested loop) to solve.
+Input 1:
+arr = [1, 3, 2, 4]
+Output 1:
+-1, -1, 3, -1
+Input 2:
+arr = [6, 8, 0, 1, 3]
+Output 2:
+-1, -1, 8, 8, 8
+Input 3:
+arr = [1, 2, 3, 5]
+Output 3:
+-1, -1, -1, -1
+Input 4:
+arr = [5, 4, 3, 1]
+Output 4:
+-1, 5, 4, 3
+CODE-
+#include <stdio.h>
+
+int main() {
+    int arr[] = {1, 3, 2, 4};
+    int n = sizeof(arr) / sizeof(arr[0]);
+
+    for (int i = 0; i < n; i++) {
+        int prev = -1;
+
+        // Check elements on the left of i
+        for (int j = i - 1; j >= 0; j--) {
+            if (arr[j] > arr[i]) {
+                prev = arr[j];
+                break;   // nearest greater found
+            }
+        }
+
+        // Formatting output
+        if (i == n - 1)
+            printf("%d", prev);
+        else
+            printf("%d, ", prev);
+    }
+
+    return 0;
+}
+
+
+Q108 (Logic Enhancers)
+Write a Program to take an integer array nums. Print an array answer such that answer[i] is equal to the product of all the elements of nums except nums[i]. The product of any prefix or suffix of nums is guaranteed to fit in a 32-bit integer.
+Input 1:
+nums = [1,2,3,4]
+Output 1:
+[24,12,8,6]
+Input 2:
+nums = [-1,1,0,-3,3]
+Output 2:
+[0,0,9,0,0]
+CODE-
+#include <stdio.h>
+
+int main() {
+    int nums[] = {1, 2, 3, 4};
+    int n = sizeof(nums) / sizeof(nums[0]);
+
+    int answer[n];
+
+    // Step 1: Prefix product
+    answer[0] = 1;
+    for (int i = 1; i < n; i++) {
+        answer[i] = answer[i - 1] * nums[i - 1];
+    }
+
+    // Step 2: Suffix product
+    int suffix = 1;
+    for (int i = n - 1; i >= 0; i--) {
+        answer[i] = answer[i] * suffix;
+        suffix = suffix * nums[i];
+    }
+
+    // Print result
+    printf("[");
+    for (int i = 0; i < n; i++) {
+        if (i == n - 1)
+            printf("%d", answer[i]);
+        else
+            printf("%d,", answer[i]);
+    }
+    printf("]");
+
+    return 0;
+}
+
+
+Q109 (Logic Enhancers)
+Write a program to take an integer array arr and an integer k as inputs. Print the maximum sum of all the subarrays of size k.
+Input 1:
+arr[100, 200, 300, 400] = , k = 2
+Output 1:
+700
+Explanation 1:
+arr2 + arr3 = 700, which is maximum.
+Input 2:
+arr[1, 4, 2, 10, 23, 3, 1, 0, 20] = , k = 4
+Output 2:
+39
+Explanation 2:
+arr1 + arr2 + arr3 + arr4 = 39, which is maximum.
+Input 3:
+arr[100, 200, 300, 400] = , k = 1
+Output 3:
+400
+Explanation 3:
+arr3 = 400, which is maximum.
+CODE-
+#include <stdio.h>
+
+int main() {
+    int n, k;
+    
+    // Input size
+    scanf("%d", &n);
+
+    int arr[n];
+    
+    // Input array
+    for(int i = 0; i < n; i++) {
+        scanf("%d", &arr[i]);
+    }
+
+    // Input k
+    scanf("%d", &k);
+
+    // Edge case
+    if(k > n) {
+        printf("Invalid");
+        return 0;
+    }
+
+    // Compute initial window sum
+    int windowSum = 0;
+    for(int i = 0; i < k; i++) {
+        windowSum += arr[i];
+    }
+
+    int maxSum = windowSum;
+
+    // Slide the window
+    for(int i = k; i < n; i++) {
+        windowSum += arr[i] - arr[i - k];  // Add new element, remove old
+        if(windowSum > maxSum)
+            maxSum = windowSum;
+    }
+
+    // Output result
+    printf("%d", maxSum);
+
+    return 0;
+}
+
+
+
+
+Q110 (Logic Enhancers)
+Write a program to take an integer array arr and an integer k as inputs. The task is to find the maximum element in each subarray of size k moving from left to right. Print the maximum elements for each window separated by spaces as output.
+Input 1:
+arr[1, 2, 3, 1, 4, 5, 2, 3, 6] = , k = 3
+Output 1:
+3 3 4 5 5 5 6
+Explanation 1:
+1st contiguous subarray , max = 3; 2nd contiguous subarray , max = 3; 3rd contiguous subarray , max = 4; 4th contiguous subarray , max = 5; 5th contiguous subarray , max = 5; 6th contiguous subarray , max = 5; 7th contiguous subarray , max = 6.
+Input 2:
+arr[5, 1, 3, 4, 2] = , k = 1
+Output 2:
+5 1 3 4 2
+Explanation 2:
+When k = 1, each element in the array is its own subarray, so the output is simply the same array.
+CODE-
+#include <stdio.h>
+
+int main() {
+    int n, k;
+
+    // Input size
+    scanf("%d", &n);
+
+    int arr[n];
+
+    // Read array
+    for(int i = 0; i < n; i++) {
+        scanf("%d", &arr[i]);
+    }
+
+    // Read k
+    scanf("%d", &k);
+
+    // Deque will store indices
+    int dq[n];
+    int front = 0, rear = -1;
+
+    // Process first k elements
+    for(int i = 0; i < k; i++) {
+        while(front <= rear && arr[dq[rear]] <= arr[i])
+            rear--;
+        dq[++rear] = i;
+    }
+
+    // Print max of first window
+    printf("%d ", arr[dq[front]]);
+
+    // Process rest of the elements
+    for(int i = k; i < n; i++) {
+        
+        // Remove elements out of this window
+        while(front <= rear && dq[front] <= i - k)
+            front++;
+
+        // Remove all smaller elements
+        while(front <= rear && arr[dq[rear]] <= arr[i])
+            rear--;
+
+        dq[++rear] = i;
+
+        // Print the current maximum
+        printf("%d ", arr[dq[front]]);
+    }
+
+    return 0;
+}
