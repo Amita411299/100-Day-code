@@ -1,0 +1,249 @@
+Q131 (Enum)
+Create an enumeration for days (SUNDAY to SATURDAY) and print each day with its integer value.
+Input 1:
+No input
+Output 1:
+SUNDAY = 0
+MONDAY = 1
+TUESDAY = 2
+WEDNESDAY = 3
+THURSDAY = 4
+FRIDAY = 5
+SATURDAY = 6
+Explanation 1:
+Each day in the enum is automatically assigned an integer starting from 0.
+CODE-
+#include <stdio.h>
+
+enum Days {
+    SUNDAY,    // 0
+    MONDAY,    // 1
+    TUESDAY,   // 2
+    WEDNESDAY, // 3
+    THURSDAY,  // 4
+    FRIDAY,    // 5
+    SATURDAY   // 6
+};
+
+int main() {
+    enum Days day;
+
+    // Print each day with its integer value
+    printf("SUNDAY = %d\n", SUNDAY);
+    printf("MONDAY = %d\n", MONDAY);
+    printf("TUESDAY = %d\n", TUESDAY);
+    printf("WEDNESDAY = %d\n", WEDNESDAY);
+    printf("THURSDAY = %d\n", THURSDAY);
+    printf("FRIDAY = %d\n", FRIDAY);
+    printf("SATURDAY = %d\n", SATURDAY);
+
+    return 0;
+}
+
+
+
+Q132 (Enum)
+Define an enum for traffic lights (RED, YELLOW, GREEN) and print 'Stop', 'Wait', or 'Go' based on its value.
+Input 1:
+GREEN
+Output 1:
+Go
+Explanation 1:
+When the enum value is GREEN, the program prints 'Go'.
+CODE-
+#include <stdio.h>
+#include <string.h>
+
+enum TrafficLight {
+    RED,
+    YELLOW,
+    GREEN
+};
+
+int main() {
+    char input[10];
+    enum TrafficLight light;
+
+    // Take input as string (e.g., "RED", "YELLOW", "GREEN")
+    printf("Enter traffic light color (RED, YELLOW, GREEN): ");
+    scanf("%s", input);
+
+    // Convert input string to enum value
+    if (strcmp(input, "RED") == 0) {
+        light = RED;
+    } else if (strcmp(input, "YELLOW") == 0) {
+        light = YELLOW;
+    } else if (strcmp(input, "GREEN") == 0) {
+        light = GREEN;
+    } else {
+        printf("Invalid input.\n");
+        return 1;
+    }
+
+    // Print corresponding action
+    switch (light) {
+        case RED:
+            printf("Stop\n");
+            break;
+        case YELLOW:
+            printf("Wait\n");
+            break;
+        case GREEN:
+            printf("Go\n");
+            break;
+    }
+
+    return 0;
+}
+
+
+Q133 (Enum)
+Create an enum for months and print how many days each month has.
+Input 1:
+FEB
+Output 1:
+28 or 29 days
+Explanation 1:
+February has 28 days in a normal year and 29 in a leap year.
+CODE-
+#include <stdio.h>
+#include <string.h>
+
+enum Months {
+    JAN, FEB, MAR, APR, MAY, JUN,
+    JUL, AUG, SEP, OCT, NOV, DEC
+};
+
+int main() {
+    char input[4];
+    enum Months month;
+
+    printf("Enter month abbreviation (e.g., JAN, FEB): ");
+    scanf("%3s", input);
+
+    // Convert input to uppercase for consistency
+    for (int i = 0; input[i]; i++) {
+        if (input[i] >= 'a' && input[i] <= 'z') {
+            input[i] = input[i] - 'a' + 'A';
+        }
+    }
+
+    if (strcmp(input, "JAN") == 0) month = JAN;
+    else if (strcmp(input, "FEB") == 0) month = FEB;
+    else if (strcmp(input, "MAR") == 0) month = MAR;
+    else if (strcmp(input, "APR") == 0) month = APR;
+    else if (strcmp(input, "MAY") == 0) month = MAY;
+    else if (strcmp(input, "JUN") == 0) month = JUN;
+    else if (strcmp(input, "JUL") == 0) month = JUL;
+    else if (strcmp(input, "AUG") == 0) month = AUG;
+    else if (strcmp(input, "SEP") == 0) month = SEP;
+    else if (strcmp(input, "OCT") == 0) month = OCT;
+    else if (strcmp(input, "NOV") == 0) month = NOV;
+    else if (strcmp(input, "DEC") == 0) month = DEC;
+    else {
+        printf("Invalid month input.\n");
+        return 1;
+    }
+
+    switch (month) {
+        case JAN: printf("31 days\n"); break;
+        case FEB: printf("28 or 29 days\n"); break;
+        case MAR: printf("31 days\n"); break;
+        case APR: printf("30 days\n"); break;
+        case MAY: printf("31 days\n"); break;
+        case JUN: printf("30 days\n"); break;
+        case JUL: printf("31 days\n"); break;
+        case AUG: printf("31 days\n"); break;
+        case SEP: printf("30 days\n"); break;
+        case OCT: printf("31 days\n"); break;
+        case NOV: printf("30 days\n"); break;
+        case DEC: printf("31 days\n"); break;
+    }
+
+    return 0;
+}
+
+
+
+Q134 (Enum)
+Define an enum with SUCCESS, FAILURE, and TIMEOUT, and print messages accordingly.
+Input 1:
+FAILURE
+Output 1:
+Operation failed
+Explanation 1:
+FAILURE corresponds to a failed operation message.
+CODE-
+#include <stdio.h>
+#include <string.h>
+
+enum Status {
+    SUCCESS,
+    FAILURE,
+    TIMEOUT
+};
+
+int main() {
+    char input[10];
+    enum Status status;
+
+    // Take input as string
+    printf("Enter status (SUCCESS, FAILURE, TIMEOUT): ");
+    scanf("%s", input);
+
+    // Convert input to enum
+    if (strcmp(input, "SUCCESS") == 0) {
+        status = SUCCESS;
+    } else if (strcmp(input, "FAILURE") == 0) {
+        status = FAILURE;
+    } else if (strcmp(input, "TIMEOUT") == 0) {
+        status = TIMEOUT;
+    } else {
+        printf("Invalid status input.\n");
+        return 1;
+    }
+
+    // Print message based on status
+    switch (status) {
+        case SUCCESS:
+            printf("Operation successful\n");
+            break;
+        case FAILURE:
+            printf("Operation failed\n");
+            break;
+        case TIMEOUT:
+            printf("Operation timed out\n");
+            break;
+    }
+
+    return 0;
+}
+
+
+Q135 (Enum)
+Assign explicit values starting from 10 and print them.
+Input 1:
+No input
+Output 1:
+A=10
+B=11
+C=12
+Explanation 1:
+Enum values can be explicitly assigned; subsequent values auto-increment.
+CODE-
+#include <stdio.h>
+
+enum Letters {
+    A = 10,
+    B,  // 11
+    C   // 12
+};
+
+int main() {
+    printf("A=%d\n", A);
+    printf("B=%d\n", B);
+    printf("C=%d\n", C);
+
+    return 0;
+}
+
