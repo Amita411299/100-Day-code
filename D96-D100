@@ -1,0 +1,251 @@
+Q146 (Enum)
+Create Employee structure with nested Date structure for joining date and print details.
+Input 1:
+Employee: Raj | ID: 11 | Joining Date: 12 05 2020
+Output 1:
+Name: Raj | ID: 11 | Joining Date: 12/05/2020
+Explanation 1:
+Nested structure Date is used inside Employee structure to represent joining date.
+CODE-
+#include <stdio.h>
+#include <string.h>
+
+struct Student {
+    char name[50];
+    int roll_no;
+    int marks;
+};
+
+// Function to find and return the top student
+struct Student findTopStudent(struct Student students[], int n) {
+    struct Student topStudent = students[0];
+    for (int i = 1; i < n; i++) {
+        if (students[i].marks > topStudent.marks) {
+            topStudent = students[i];
+        }
+    }
+    return topStudent;
+}
+
+int main() {
+    struct Student students[3];
+
+    // Input details for 3 students
+    for (int i = 0; i < 3; i++) {
+        printf("Enter details for student %d\n", i + 1);
+
+        printf("Name: ");
+        if (i > 0) getchar(); // clear newline from buffer before fgets
+        fgets(students[i].name, sizeof(students[i].name), stdin);
+        size_t len = strlen(students[i].name);
+        if (len > 0 && students[i].name[len - 1] == '\n') {
+            students[i].name[len - 1] = '\0';
+        }
+
+        printf("Roll: ");
+        scanf("%d", &students[i].roll_no);
+
+        printf("Marks: ");
+        scanf("%d", &students[i].marks);
+
+        printf("\n");
+    }
+
+    // Get top student from function
+    struct Student top = findTopStudent(students, 3);
+
+    printf("Top Student: %s | Roll: %d | Marks: %d\n", top.name, top.roll_no, top.marks);
+
+    return 0;
+}
+
+
+
+Q147 (Enum)
+Store employee data in a binary file using fwrite() and read using fread().
+Input 1:
+Employee details entered and stored in file.
+Output 1:
+Displays employee data read from file.
+Explanation 1:
+Demonstrates writing and reading structures using binary file handling functions.
+CODE-
+#include <stdio.h>
+#include <stdlib.h>
+
+struct Employee {
+    int id;
+    char name[50];
+    float salary;
+};
+
+int main() {
+    struct Employee emp;
+    FILE *file;
+
+    // Open file in binary write mode
+    file = fopen("employee.dat", "wb");
+    if (file == NULL) {
+        printf("Error opening file for writing.\n");
+        return 1;
+    }
+
+    // Input employee data
+    printf("Enter Employee ID: ");
+    scanf("%d", &emp.id);
+
+    printf("Enter Employee Name: ");
+    getchar();  // consume newline left by scanf
+    fgets(emp.name, sizeof(emp.name), stdin);
+    // Remove trailing newline from fgets
+    size_t len = strlen(emp.name);
+    if (len > 0 && emp.name[len - 1] == '\n') {
+        emp.name[len - 1] = '\0';
+    }
+
+    printf("Enter Employee Salary: ");
+    scanf("%f", &emp.salary);
+
+    // Write the struct to file
+    fwrite(&emp, sizeof(struct Employee), 1, file);
+    fclose(file);
+
+    printf("\nData written successfully to employee.dat\n\n");
+
+    // Read and display the data from file
+    file = fopen("employee.dat", "rb");
+    if (file == NULL) {
+        printf("Error opening file for reading.\n");
+        return 1;
+    }
+
+    printf("Reading employee data from file:\n");
+    fread(&emp, sizeof(struct Employee), 1, file);
+    fclose(file);
+
+    printf("Employee ID: %d\n", emp.id);
+    printf("Employee Name: %s\n", emp.name);
+    printf("Employee Salary: %.2f\n", emp.salary);
+
+    return 0;
+}
+
+
+
+
+Q148 (Enum)
+Take two structs as input and check if they are identical.
+Input 1:
+Student1: Asha 101 90
+Student2: Asha 101 90
+Output 1:
+Same
+Explanation 1:
+Compares all structure members and prints 'Same' if identical.
+CODE-
+#include <stdio.h>
+#include <string.h>
+
+struct Student {
+    char name[50];
+    int roll_no;
+    int marks;
+};
+
+int main() {
+    struct Student s1, s2;
+
+    // Input first student
+    printf("Enter details for Student 1 (Name Roll Marks): ");
+    scanf("%s %d %d", s1.name, &s1.roll_no, &s1.marks);
+
+    // Input second student
+    printf("Enter details for Student 2 (Name Roll Marks): ");
+    scanf("%s %d %d", s2.name, &s2.roll_no, &s2.marks);
+
+    // Compare all members
+    if (strcmp(s1.name, s2.name) == 0 && s1.roll_no == s2.roll_no && s1.marks == s2.marks) {
+        printf("Same\n");
+    } else {
+        printf("Not Same\n");
+    }
+
+    return 0;
+}
+
+
+
+
+Q149 (Enum)
+Use malloc() to allocate structure memory dynamically and print details.
+Input 1:
+Student allocated dynamically with details: Tina 105 88
+Output 1:
+Name: Tina | Roll: 105 | Marks: 88
+Explanation 1:
+Memory for structure is dynamically allocated on heap using malloc().
+CODE-
+#include <stdio.h>
+#include <stdlib.h>
+
+struct Student {
+    char name[50];
+    int roll_no;
+    int marks;
+};
+
+int main() {
+    // Dynamically allocate memory for one Student
+    struct Student *s = (struct Student *)malloc(sizeof(struct Student));
+    if (s == NULL) {
+        printf("Memory allocation failed.\n");
+        return 1;
+    }
+
+    // Input student details
+    printf("Enter student details (Name Roll Marks): ");
+    scanf("%s %d %d", s->name, &s->roll_no, &s->marks);
+
+    // Print student details
+    printf("Name: %s | Roll: %d | Marks: %d\n", s->name, s->roll_no, s->marks);
+
+    // Free allocated memory
+    free(s);
+
+    return 0;
+}
+
+
+
+Q150 (Enum)
+Use pointer to struct to modify and display data using -> operator.
+Input 1:
+Student pointer modifying values: John 106 91
+Output 1:
+Modified Data: Name: John | Roll: 106 | Marks: 91
+Explanation 1:
+Pointer to structure accesses and modifies data using the arrow (->) operator.
+CODE-
+#include <stdio.h>
+#include <string.h>
+
+struct Student {
+    char name[50];
+    int roll_no;
+    int marks;
+};
+
+int main() {
+    struct Student s;
+    struct Student *ptr = &s;  // Pointer to struct
+
+    // Modify data using pointer and -> operator
+    strcpy(ptr->name, "John");
+    ptr->roll_no = 106;
+    ptr->marks = 91;
+
+    // Display modified data
+    printf("Modified Data: Name: %s | Roll: %d | Marks: %d\n", ptr->name, ptr->roll_no, ptr->marks);
+
+    return 0;
+}
